@@ -2,12 +2,16 @@ package com.example.ggd;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,25 +30,55 @@ public class MainActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     ArrayList<StationInfo.Station> stations;
-    Button button;
+
+    RecyclerView recyclerView;
+    MyAdapter adapter;
+
+    Button cheerBtn, tipBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.button);
+        cheerBtn = findViewById(R.id.cheerBtn);
+        tipBtn = findViewById(R.id.tipBtn);
+
+        cheerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CheerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this, TipActivity.class);
+                startActivity(intent);
+            }
+        });
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
+            public void onRefresh() {
                 getLocation();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+        //getLocation();
+
+        adapter = new MyAdapter(new ArrayList<String>(), this.getApplicationContext());
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        getLocation();
     }
 
     void getLocation() {
@@ -107,6 +141,16 @@ public class MainActivity extends AppCompatActivity {
     void unioning(List<String> list1, List<String> list2) {
         list1.retainAll(list2);
 
-        Toast.makeText(this, list1.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, list1.toString(), Toast.LENGTH_SHORT).show();
+        if (list1.size() > 0) {
+            //Intent intent = new Intent(MainActivity.this, SeekActivity.class);
+            //intent.putExtra("station", list1.get(0));
+            adapter.setList(list1);
+            adapter.notifyDataSetChanged();
+            //startActivity(intent);
+        } else {
+            Toast.makeText(this, "가까이 있는 10 정거장 안에 화장실이 없어요!", Toast.LENGTH_SHORT).show();
+        }
     }
+
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/hand"
+            android:layout_weight="1"
+            android:layout_marginBottom="70dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="\n\n\n\n1. 오른손 잡이는 왼쪽, \n     왼손잡이는 오른쪽을 피고 \n     정 가운데 지점을 찾는다. \n2.  그 지점을 3초간 엄지로 누르고 \n      3초간 손을 땐다. \n      이 동작을 계속 반복한다. " />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/arm"
+            android:layout_marginBottom="70dp"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="\n\n1. 손목 아래로 9~10cm 정도 \n     떨어진 지점을 찾는다. \n2.  그 지점을 3초간 엄지로 누르고 \n      3초간 손을 땐다. \n      이 동작을 계속 반복한다. " />
+
+
+    </LinearLayout>
+    <TextView
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=" 벨트를 풀고 바지 단추를 풀고 \n        괄약근에 힘을 준다음\n        마음을 편안히 가지자..."
+        />
+</LinearLayout>
